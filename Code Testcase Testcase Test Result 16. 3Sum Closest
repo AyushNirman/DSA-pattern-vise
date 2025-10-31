@@ -1,0 +1,127 @@
+import java.util.Arrays;
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        int closest=Integer.MAX_VALUE; int n=nums.length; 
+        Arrays.sort(nums);
+        for(int i=0;i<n-2;i++){
+            int l=i+1,r=n-1;
+
+            while(l<r){
+                int sum=nums[i]+nums[l]+nums[r];
+
+                if(target==sum){
+                    return sum;
+                }
+
+                if(Math.abs(target-sum)<Math.abs(target-closest)){
+                    closest=sum;
+                }
+
+                if(sum<target){
+                    l++;
+                }
+                else r--;
+
+            }
+        }
+        return closest;
+    }
+} 
+
+
+
+
+
+
+
+
+
+Three Sum Closest notes.
+
+📌 Question:
+
+Given array nums[] and a target,
+Find three numbers whose sum is closest to target.
+
+💡 Idea / Logic
+
+Sort array
+
+Fix first element using loop
+
+Use two pointers (l and r) for the other two numbers
+
+Track the closest sum using:
+abs(target - sum) < abs(target - closest)
+
+Move pointers based on sum comparison with target
+
+🚦 Why Two Pointer?
+
+After sorting,
+If sum < target → need bigger sum → l++
+If sum > target → need smaller sum → r--
+
+This makes it O(n²) instead of O(n³).
+
+🧠 Key Condition
+if (abs(target - sum) < abs(target - closest))
+    closest = sum
+
+
+✔ Replace closest only when new sum is closer.
+
+✅ Dry Run Example
+
+Input: [-1, 2, 1, -4], target = 1
+Sorted → [-4, -1, 1, 2]
+
+i	l,r	triplet	sum	closest update?
+0	l=1 r=3	-4,-1,2	-3	yes closest = -3
+	l=2 r=3	-4,1,2	-1	yes closest = -1
+
+i=1
+| 1 | l=2 r=3 | -1,1,2 | 2 | yes closest = 2 |
+
+Answer → 2
+
+🏁 Time & Space
+
+Time: O(n²) (sorting + 2-pointer)
+
+Space: O(1)
+
+✍️ Notebook Template
+
+Copy this exactly as notes:
+
+3 SUM CLOSEST (Two Pointer)
+
+Goal: find 3 numbers whose sum is closest to target
+
+Steps:
+1) Sort array
+2) Loop i = 0 to n-3
+3) l = i+1, r = n-1
+4) While l < r:
+      sum = nums[i] + nums[l] + nums[r]
+
+      if sum == target → answer found, return sum
+
+      if |target - sum| < |target - closest|
+          closest = sum
+
+      if sum < target → l++
+      else → r--
+
+Return closest
+
+Time: O(n²)
+Space: O(1)
+
+🎯 Tip
+
+This question trains:
+✔ Two-pointer
+✔ Absolute difference logic
+✔ Pattern for future DSA problems
