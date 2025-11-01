@@ -1,0 +1,186 @@
+gfg 
+Q= Triplets With Sum Smaller Than Target
+
+// User function Template for Java
+import java.util.Arrays;
+class Solution {
+    long countTriplets(int n, int sum, long arr[]) {
+        Arrays.sort(arr);
+       long res=0;
+        for(int i=0;i<n-2;i++){
+            int l=i+1,r=n-1;
+            while(l<r){
+                long s=arr[i]+arr[l]+arr[r];
+                
+                if(s>=sum) r--;
+                else{
+                    res+=r-l;
+                    l++;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
+
+
+
+
+Bro, here are **clean notebook-style notes** ✍️
+(Directly copy, you will understand anytime you read)
+
+---
+
+## ✅ **Topic:** Triplets With Sum Smaller Than Target
+
+### 🎯 **Goal**
+
+Count how many triplets `(i, j, k)` (i<j<k) such that:
+
+```
+arr[i] + arr[j] + arr[k] < target
+```
+
+---
+
+## 🧠 **Logic / Intuition**
+
+* Sort array
+* Fix first element (i loop)
+* Use **two pointers** for remaining two:
+
+```
+i = fixed index
+left = i+1
+right = n-1
+```
+
+### ⭐ Key Observation
+
+If:
+
+```
+arr[i] + arr[left] + arr[right] < target
+```
+
+Then **all elements between left and right form valid triplets** ✅
+because array is sorted → anything smaller will also work.
+
+So we do:
+
+```
+count += (right - left)
+left++
+```
+
+Else:
+
+```
+right--
+```
+
+---
+
+## ⏳ **Why Two Pointer?**
+
+Brute = O(n³) ❌
+Two pointer reduces to **O(n²)** ✅
+
+Sorted array helps decide movement:
+
+* Sum < target → move `left++` to get bigger sum
+* Sum ≥ target → move `right--` to reduce sum
+
+---
+
+## ✍️ **Pseudo-notes**
+
+```
+Sort array
+count = 0
+
+For i = 0 to n-3:
+    left = i+1
+    right = n-1
+
+    while(left < right):
+        sum = arr[i] + arr[left] + arr[right]
+
+        if sum < target:
+            count += (right - left)
+            left++
+        else
+            right--
+
+Return count
+```
+
+---
+
+## 👀 **Example**
+
+Input:
+
+```
+arr = [-2, 0, 1, 3], target = 2
+```
+
+Sorted → `[-2, 0, 1, 3]`
+
+| i | left,right | triplet | sum | action                  |
+| - | ---------- | ------- | --- | ----------------------- |
+| 0 | 1,3        | -2,0,3  | 1   | 1<2 → count+=2 → left++ |
+|   | 2,3        | -2,1,3  | 2   | not <2 → right--        |
+| 1 | 2,3        | 0,1,3   | 4   | >2 → right--            |
+
+Total valid triplets = **2**
+
+---
+
+## 🚦 **Remember**
+
+* Sorted → two pointer works
+* When sum < target → add `(right-left)` not just 1
+* Move `left++` after counting
+* Else `right--`
+
+---
+
+## 🧩 **Pattern**
+
+Same two-pointer pattern used in:
+
+| Problem          | Concept                   |
+| ---------------- | ------------------------- |
+| 3-Sum            | find triplets = target    |
+| 3-Sum closest    | closest to target         |
+| Triplets smaller | count triplets < target ✅ |
+
+Master this pattern 💯
+
+---
+
+### 🧠 **Interview Sound-bite**
+
+> We sort, fix one number, use two pointers to count all valid triplets in O(n²).
+> Key idea: if arr[i] + arr[l] + arr[r] < target → all values between l and r also valid.
+
+---
+
+## 🕒 Complexity
+
+* **Time:** O(n²)
+* **Space:** O(1)
+
+
+
+
+
+
+
+
+
+
+
+
