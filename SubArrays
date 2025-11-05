@@ -1,0 +1,57 @@
+public class SubarrayAlgorithms {
+
+    // 1️⃣ Brute Force: print all subarray sums
+    static void bruteForceSubarrays(int[] arr) {
+        System.out.println("Brute Force Subarray Sums:");
+        for (int i = 0; i < arr.length; i++) {
+            int sum = 0;
+            for (int j = i; j < arr.length; j++) {
+                sum += arr[j];
+                System.out.println("Subarray [" + i + ".." + j + "] = " + sum);
+            }
+        }
+        System.out.println();
+    }
+
+    // 2️⃣ Prefix Sum: print all subarray sums
+    static void prefixSumSubarrays(int[] arr) {
+        System.out.println("Prefix Sum Subarray Sums:");
+        int n = arr.length;
+        int[] prefix = new int[n];
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) prefix[i] = prefix[i - 1] + arr[i];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int sum = i == 0 ? prefix[j] : prefix[j] - prefix[i - 1];
+                System.out.println("Subarray [" + i + ".." + j + "] = " + sum);
+            }
+        }
+        System.out.println();
+    }
+
+    // 3️⃣ Maximum Subarray Sum using Prefix
+    static void maxSubarrayPrefix(int[] arr) {
+        int n = arr.length;
+        int[] prefix = new int[n];
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) prefix[i] = prefix[i - 1] + arr[i];
+
+        int maxSum = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int sum = i == 0 ? prefix[j] : prefix[j] - prefix[i - 1];
+                if (sum > maxSum) maxSum = sum;
+            }
+        }
+        System.out.println("Maximum Subarray Sum (Prefix) = " + maxSum);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 4, -3, 5, -6, 8};
+
+        bruteForceSubarrays(arr);     // Part 1
+        prefixSumSubarrays(arr);      // Part 2
+        maxSubarrayPrefix(arr);       // Part 3
+    }
+}
