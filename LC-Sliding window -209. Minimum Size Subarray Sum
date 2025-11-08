@@ -1,0 +1,145 @@
+class Solution {
+    public int minSubArrayLen(int target, int[] arr) {
+
+        // n = array length
+        // i = left pointer of window
+        // j = right pointer of window
+        // sum = window sum
+        // minLength = store minimum size of valid window
+        int n = arr.length, i = 0, j = 0, sum = 0, minLength = Integer.MAX_VALUE;
+
+        // expand right side of window till j reaches end
+        while (j < n) {
+
+            // include current element into window sum
+            sum += arr[j];
+
+            // if window sum becomes >= target, try to shrink from left
+            while (sum >= target) {
+
+                // window length = j-i+1 (because both ends inclusive)
+                int windowLen = j - i + 1;
+
+                // update answer with smallest window found
+                minLength = Math.min(minLength, windowLen);
+
+                // shrink window from left (remove arr[i] from sum)
+                sum -= arr[i];
+
+                // move left pointer forward
+                i++;
+            }
+
+            // move right pointer forward (expand window)
+            j++;
+        }
+
+        // if no valid window found, return 0
+        return (minLength == Integer.MAX_VALUE) ? 0 : minLength;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+✅ What the question wants
+
+Find the smallest-length continuous subarray whose sum ≥ target.
+If no such subarray → return 0
+
+Example:
+nums = [2,3,1,2,4,3], target = 7
+
+Valid windows:[2,3,1,2] = 8 (size 4)
+[4,3] = 7 (size 2) ✅ minimum → answer = 2
+
+✅ Why Sliding Window?
+
+This is variable window (not fixed size)
+
+We need:
+
+Expand to reach sum >= target
+
+Shrink to find smallest window
+
+Grow → shrink → track minimum length
+
+✅ Code Explanation (Line by Line Logic)
+int n = arr.length, i = 0, j = 0, sum = 0, minLength = Integer.MAX_VALUE;
+
+
+i = left pointer
+
+j = right pointer
+
+sum = window sum
+
+minLength = answer store (very big initially)
+
+while (j < n) {
+    sum += arr[j];
+
+
+Expand right window, add element
+
+while (sum >= target) {
+
+
+If current window sum is enough → time to shrink and make it smallest possible.
+
+    int windowLen = j - i + 1;
+    minLength = Math.min(minLength, windowLen);
+
+
+Update minimum length window when sum condition satisfied.
+
+    sum -= arr[i];
+    i++;
+
+
+Shrink window from left (remove left element)
+
+j++;
+
+
+Move right pointer forward
+
+return (minLength == Integer.MAX_VALUE) ? 0 : minLength;
+
+
+If unchanged → no valid subarray found → return 0
+
+✅ Key Difference from Max Sum Window Problem
+Max Subarray Sum (Fixed K)	Min Subarray Sum ≥ Target
+Window size fixed	Window size variable
+Remove & add each step	Grow until valid → shrink to minimize
+Use for subarray size K	Use when target/sum condition given
+
+Think like:
+
+Fixed window: school bus with fixed number of seats
+
+Variable window (this Q): bus grows until passengers ≥ target weight, then shrink to minimum seats possible 😆
+
+✅ Human Memory Trick
+
+Expand until sum ≥ target → shrink until sum < target → record minimum length
+
+Shortcut formula👇
+
+while sum < target → j++
+while sum >= target → answer update & i++
