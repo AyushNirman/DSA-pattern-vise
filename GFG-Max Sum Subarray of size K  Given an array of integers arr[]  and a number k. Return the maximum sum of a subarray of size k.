@@ -1,0 +1,177 @@
+class Solution {
+    public int maxSubarraySum(int[] arr, int k) {
+        int n = arr.length;
+        int sum = 0, max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < k; i++) sum += arr[i];
+
+        max = sum;
+
+        for (int i = k; i < n; i++) {
+            sum += arr[i] - arr[i - k];
+            max = Math.max(max, sum);
+        }
+        return max;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Let's break this question like you're learning logic — **not just code**.
+
+---
+
+## ✅ What the Question Wants
+
+> **Find the maximum sum of any subarray of size K.**
+
+### Meaning
+
+* You must pick **exactly K continuous elements**.
+* Compute their sums.
+* Return the **largest**.
+
+Example:
+`arr = [100, 200, 300, 400], k = 2`
+
+Subarrays of size 2:
+
+* `[100,200] = 300`
+* `[200,300] = 500`
+* `[300,400] = 700` ✅ max
+
+---
+
+## ✅ Why Sliding Window?
+
+Brute force = sum again and again → slow.
+
+Sliding Window =
+
+> "Add new element, remove old one → update sum in O(1)"
+
+---
+
+## ✅ Human Logic / Real-Life Example
+
+Imagine a moving **bus window** 🚍
+You want the **top 2 passengers with maximum total weight** (fun example 😆)
+
+Window size = 2 (k=2)
+Slide window → remove old passenger, add new passenger
+
+---
+
+## ✅ What Every Line Means (Your Code Explained)
+
+```java
+int low = 0, high = k - 1;  
+```
+
+Window start & end.
+
+```java
+for (int i=low; i<=high; i++) sum += arr[i];
+```
+
+First window sum create.
+
+```java
+while (high < n) {
+```
+
+Slide window till end of array.
+
+```java
+res = Math.max(res, sum);
+```
+
+Store biggest sum seen so far.
+
+```java
+low++; 
+high++;
+```
+
+Move window forward by 1.
+
+```java
+if (high == n) break;
+```
+
+If right pointer goes out, stop.
+
+```java
+sum = sum - arr[low-1]; 
+sum = sum + arr[high];
+```
+
+Remove left element, add new right element.
+
+---
+
+## ✅ How to Remember (Short Formula)
+
+> **Initial window sum → Slide window → Remove left, add right → Track max**
+
+OR
+
+> **Make first K sum → move one step → minus old + add new**
+
+---
+
+## ✅ One-Liner Memory Trick
+
+> **Fixed window size = remove left, add right**
+
+Dynamic window (LeetCode 209) → shrink/grow
+Fixed window (this problem) → only slide
+
+---
+
+## ✅ Interview Line (Accurate Answer)
+
+> This is a fixed-size sliding window problem.
+> We compute the sum of the first `k` elements, then slide the window by subtracting the element going out and adding the new element coming in. Time complexity: O(n).
+
+---
+
+## ✅ Cleaner Pretty Version of Your Code
+
+```java
+class Solution {
+    public int maxSubarraySum(int[] arr, int k) {
+        int n = arr.length;
+        int sum = 0, max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < k; i++) sum += arr[i];
+
+        max = sum;
+
+        for (int i = k; i < n; i++) {
+            sum += arr[i] - arr[i - k];
+            max = Math.max(max, sum);
+        }
+        return max;
+    }
+}
+```
+
+---
+
+## ✅ Question in Short for Revision
+
+```
+Find max sum of any k-length continuous subarray.
+Use sliding window: first k sum, then add new + remove old.
+```
+
